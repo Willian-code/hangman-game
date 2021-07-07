@@ -50,7 +50,7 @@ void    forca(int estado)
     {
         printf("\n-------------------");
         printf("\n|                 |");
-        printf("\n|              \\ 0");
+        printf("\n|               \\ 0");
         printf("\n|                 |");
         printf("\n|");
         printf("\n|");
@@ -78,7 +78,7 @@ void    forca(int estado)
     {
         printf("\n-------------------");
         printf("\n|                 |");
-        printf("\n|              \\ 0 /");
+        printf("\n|               \\ 0 /");
         printf("\n|                 |");
         printf("\n|                  \\");
         printf("\n|");
@@ -106,47 +106,64 @@ void    forca(int estado)
 
 int main(void)
 {
+    int erros = 0;
+    char letra;
     char p_sec[100];//palavra secreta
+    char p_tela[100];//palavra para tela
 
-    printf("Player 1: \n");
-    printf("Word secret: ");
+    printf("JOGADOR 1: ");
+    printf("Palavra secreta: ");
     fgets(p_sec, 100, stdin);
 
-    printf("The word secret is: %s", p_sec);//depois criar um sistema para validar se essa realmente é a palavra desejada
-    printf("The word have %lu characteres: ", strlen(p_sec)-1);
+    printf("A palavra secreta é: %s", p_sec);
+    printf("A palavra tem %lu caracteres", strlen(p_sec)-1);
 
-    system("clear");
+    for (int i = 0; i < 30; i++)
+        printf("\n");
 
-    for (int i = 0; i < strlen(p_sec)-1; i++)
-        printf("_ ");
-
-    int erros = 0;
+    strcpy(p_tela, p_sec);//copia p_sec para p_tela
+    //retira o último caracter de p_tela
+    //que está a mais devido a captura ser com fgets()
+    //substitui letras por '_'
+    for (int i = 0; i < strlen(p_tela)-1; i++)
+        p_tela[i] = '_';
 
     while (1)
     {
-        
+        int sera_que_errou = 1;
         //imprimir a forca
         forca(erros);
         //imprimir os underline/underscores '_' para cada letra da palavra secreta
-        printf("\nAdivinhe: ");
-
-        for (int i = 0; i < strlen(p_sec)-1; i++)
-        {
-            printf("_ ");
-        }
-            break;
-        //receba a letra
+        printf("\nAdivinha: ");
+        for (int i = 0; i < strlen(p_tela); i++)
+            printf("%c ", p_tela[i]);
+        //recebe a letra
         printf("\nLetra: ");
-        char letra;
         scanf("%c", &letra);
-        //se a letra for correta atualiza palavra na tela
-        //senao, incrementa erros
-        //verifica se o jogo acabou
+        
+        //se letra correta atualiza a palavra na tela
+        //verifica se a letra é correta
+
+        for (int i = 0; i < strlen(p_tela); i++)
+        {
+            if (letra == p_sec[i])//correto
+            {
+                p_tela[i] = letra;
+                sera_que_errou = 0;
+            }
+        }
+        //se não, incrementa erros
+        if (sera_que_errou == 1)
+            erros++;
+        //verificar se o jogo acabou
+        if (erros == 6)
+        {
+            //perdeu
+            forca(erros);
+            break;
+        }
     }
-
     
-
-    forca(6);
 
     return (0);
 }
