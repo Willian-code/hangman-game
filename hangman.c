@@ -106,7 +106,7 @@ void    forca(int estado)
 
 int main(void)
 {
-    int erros = 0;
+    int  erros = 0;
     char letra;
     char p_sec[100];//palavra secreta
     char p_tela[100];//palavra para tela
@@ -156,6 +156,22 @@ int main(void)
         if (sera_que_errou == 1)
             erros++;
         //verificar se o jogo acabou
+        //verifica se ganhou
+        //verifica se p_sec é igual a p_tela
+        if (strcmp(p_tela, p_sec) == 0)
+        {
+            //ENTÃO GANHOU
+            printf("\nAdivinha: ");
+
+            for (int i = 0; i < strlen(p_tela); i++)
+                printf("%c ", p_tela[i]);
+
+            printf("\nVenceu! Parabés!!!");
+            printf("\nYou win!\n");
+            break;
+        }
+
+        //verifica se perdeu
         if (erros == 6)
         {
             //perdeu
@@ -163,7 +179,6 @@ int main(void)
             break;
         }
     }
-    
 
     return (0);
 }
